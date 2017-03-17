@@ -22,11 +22,16 @@ Route::group(['middleware' => 'web'], function () {
 			echo $user->hasRole('admin'); die;
 			echo "<pre>"; print_r($user); die;
 		});
+
+
+
+	    Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
+			Route::get('/', 'AdminController@dashboard');
+		});
+		
 	});
 	//Admin access URL: admin/*
-	Route::group(['prefix' => 'admin', 'middleware' => ['role:admin']], function() {
-		Route::get('/', 'AdminController@dashboard');
-	});
+	
 
 
 	/**/
