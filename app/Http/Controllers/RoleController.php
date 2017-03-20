@@ -12,7 +12,7 @@ class RoleController extends Controller
 {
     public function index(Request $request)
     {
-    	$roles = Role::orderBy('id', 'DESC')->paginate(5);
+    	$roles = Role::orderBy('id', 'ASC')->paginate(5);
     	return view('roles.index', compact('roles'))
     			->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -49,7 +49,7 @@ class RoleController extends Controller
     public function show($id)
     {
     	$role = Role::find($id);
-    	$rolePermissions = Permission::join("permission_role", "permission_role.permission_id", "=", "permission.id")
+    	$rolePermissions = Permission::join("permission_role", "permission_role.permission_id", "=", "permissions.id")
     			->where('permission_role.role_id', $id)
     			->get();
 
@@ -60,10 +60,7 @@ class RoleController extends Controller
     {
     	$role = Role::find($id);
         $permissions = Permission::get();
-        $rolePermissions = DB::table('permission_role')->where('role_id',$id)
-            ->pluck('permission_id')->toArray();
-
-        // return $rolePermissions;
+        $rolePermissions = DB::table('permission_role')->where('role_id',$id)->pluck('permission_id');
          return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
     }
 
@@ -91,7 +88,7 @@ class RoleController extends Controller
     					->with('success', 'Role updated successfully');
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
     	DB::table('roles')->where('id', $id)->delete();
     	return redirect()->route('roles.index')

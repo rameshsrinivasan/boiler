@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2017 at 02:25 PM
+-- Generation Time: Mar 20, 2017 at 12:57 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -54,8 +54,8 @@ INSERT INTO `migrations` (`migration`, `batch`) VALUES
 ('2014_10_12_000000_create_users_table', 1),
 ('2014_10_12_100000_create_password_resets_table', 1),
 ('2016_03_07_083022_alter_users_table_remove_name_add_first_name_last_name', 1),
-('2017_03_17_095231_entrust_setup_tables', 2),
-('2017_03_17_121216_create_items_table', 3);
+('2017_03_17_095231_entrust_setup_tables', 1),
+('2017_03_17_121216_create_items_table', 1);
 
 -- --------------------------------------------------------
 
@@ -93,14 +93,14 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'role-list', 'Display Role Listing', 'See only Listing Of Role', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(2, 'role-create', 'Create Role', 'Create New Role', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(3, 'role-edit', 'Edit Role', 'Edit Role', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(4, 'role-delete', 'Delete Role', 'Delete Role', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(5, 'item-list', 'Display Item Listing', 'See only Listing Of Item', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(6, 'item-create', 'Create Item', 'Create New Item', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(7, 'item-edit', 'Edit Item', 'Edit Item', '2017-03-17 06:52:56', '2017-03-17 06:52:56'),
-(8, 'item-delete', 'Delete Item', 'Delete Item', '2017-03-17 06:52:56', '2017-03-17 06:52:56');
+(1, 'role-list', 'Display Role Listing', 'See only Listing Of Role', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(2, 'role-create', 'Create Role', 'Create New Role', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(3, 'role-edit', 'Edit Role', 'Edit Role', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(4, 'role-delete', 'Delete Role', 'Delete Role', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(5, 'user-list', 'Display User Listing', 'See only Listing Of User', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(6, 'user-create', 'Create User', 'Create New User', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(7, 'user-edit', 'Edit User', 'Edit User', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(8, 'user-delete', 'Delete User', 'Delete User', '2017-03-20 06:23:56', '2017-03-20 06:23:56');
 
 -- --------------------------------------------------------
 
@@ -114,6 +114,22 @@ CREATE TABLE IF NOT EXISTS `permission_role` (
   PRIMARY KEY (`permission_id`,`role_id`),
   KEY `permission_role_role_id_foreign` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `permission_role`
+--
+
+INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(1, 2),
+(5, 2);
 
 -- --------------------------------------------------------
 
@@ -130,14 +146,16 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_unique` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `display_name`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'User Administrator', 'User is allowed to manage and edit other users', '2017-03-17 04:49:33', '2017-03-17 04:49:33');
+(1, 'admin', 'Administrator', 'Administer the website and manage users', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(2, 'moderator', 'Moderator', 'Moderator', '2017-03-20 06:23:56', '2017-03-20 06:23:56'),
+(3, 'user', 'User', 'User', '2017-03-20 06:23:56', '2017-03-20 06:23:56');
 
 -- --------------------------------------------------------
 
@@ -157,7 +175,9 @@ CREATE TABLE IF NOT EXISTS `role_user` (
 --
 
 INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
-(1, 1);
+(1, 1),
+(2, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -183,9 +203,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Ramesh', 'Srinivasan', 'rameshs@sensiple.com', '$2y$10$SvHDQlBgGbVFCaPdYvk/z.dEIF6mtg.pE.xkjdKouISGiLuytmk0C', 'w8z7l8mGW4cKVN8AgidwQB4BjXVlDXrSo2gyrrulihQPcSMs01eiY3lmzWfF', '2017-03-17 04:54:47', '2017-03-17 06:26:01'),
-(2, 'Ramesh', 'Srinivasan', 'rameshsrinivasanbe@gmail.com', '$2y$10$PhvfEte9.oEqONLc8e9LV.VCFIMqKpE1rj4Jj32V72gkgpnYGJJ.K', '5PtWtEEYYf8YCiPDDjfBXiUJbRnD2lQc0OS7AFmcoPmABBRKzOld475BJmgR', '2017-03-17 04:56:15', '2017-03-17 06:26:18'),
-(3, 'Ramesh', 'Sri', 'ramesh@yopmail.com', '$2y$10$PujgEWXsXZ/Yzvic7Jlc5e5WwEaFtKdD5/0fJCm0D2LdKIydJ6NL2', 'TqW6SGV2h4d9AfeMHr23jOg6Snhuz2T0uGQU6MxQc9pueC5mj6qHFDRZ6Ueu', '2017-03-17 05:02:52', '2017-03-17 05:16:28');
+(1, 'Admin', '', 'admin@admin.com', '$2y$10$xCgxhoIJi4YgdEPc2QZZte76muVBLuyCNiQJyAl.Y2VHvxNB.XUMK', 'rv810QIaLvNLx670HXP4DFohTruGqSPHtq9zQ2NoUvOQpQWwVFsD5BYGIGvc', '2017-03-20 06:23:57', '2017-03-20 06:25:40'),
+(2, 'Moderator', '', 'moderator@admin.com', '$2y$10$CACa2HBFVVOsRtqX8RlHD.08Z1uTqJc2tjiqkQgvwvipe2ilqjFUO', NULL, '2017-03-20 06:23:57', '2017-03-20 06:23:57'),
+(3, 'User', '', 'user@user.com', '$2y$10$z.lqVGmHQBgjj.FdIEKIQeYTMzd7ASnChp1o1GUpl6p2toB.707j2', NULL, '2017-03-20 06:23:57', '2017-03-20 06:23:57');
 
 --
 -- Constraints for dumped tables

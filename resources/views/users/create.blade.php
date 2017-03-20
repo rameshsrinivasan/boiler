@@ -26,13 +26,13 @@
 		<div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>First Name:</strong>
-                {!! Form::text('first_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                {!! Form::text('first_name', null, array('placeholder' => 'First Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Last Name:</strong>
-                {!! Form::text('last_name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
+                {!! Form::text('last_name', null, array('placeholder' => 'Last Name','class' => 'form-control')) !!}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">

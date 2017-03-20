@@ -32,12 +32,12 @@ class RolesAndPermissionsSeeder extends Seeder {
 		'admin' => [
 			'display_name'	=>	'Administrator', // optional
 			'description'	=>	'administer the website and manage users', // optional
-			'permissions' 	=> ['list','create', 'edit','delete'] // optional
+			'permissions' 	=> ['role-list','role-create', 'role-edit','role-delete','user-list', 'user-create', 'user-edit', 'user-delete'] // optional
 		],
 		'moderator' => [
 			'display_name'	=>	'Moderator', // optional
 			'description'	=>	'Moderator', // optional
-			'permissions' 	=> ['list','create', 'edit'] // optional
+			'permissions' 	=> ['role-list','user-list'] // optional
 		],
 		'user' => [
 			'display_name'	=>	'User', // optional
@@ -49,24 +49,43 @@ class RolesAndPermissionsSeeder extends Seeder {
 	
 	protected $permissions = [
 		
-		'list' => [
-			'display_name' => 'List', // optional
-			'description'	=>	'List', // optional
+		'role-list' => [
+			'display_name' => 'Role List', // optional
+			'description'	=>	'Role List', // optional
 		],
 		
-		'create' =>  [
-			'display_name' => 'Create', // optional
-			'description'	=>	'Create', // optional
+		'role-create' =>  [
+			'display_name' => 'Role Create', // optional
+			'description'	=>	'Role Create', // optional
 		],
 		
-		'edit' =>  [
-			'display_name' => 'Edit', // optional
-			'description'	=>	'Edit', // optional
+		'role-edit' =>  [
+			'display_name' => 'Role Edit', // optional
+			'description'	=>	'Role Edit', // optional
 		],
 
-		'delete' =>  [
-			'display_name' => 'Delete', // optional
-			'description'	=>	'Delete', // optional
+		'role-delete' =>  [
+			'display_name' => 'Role Delete', // optional
+			'description'	=>	'Role Delete', // optional
+		],
+		'user-list' => [
+			'display_name' => 'User List', // optional
+			'description'	=>	'User List', // optional
+		],
+		
+		'user-create' =>  [
+			'display_name' => 'User Create', // optional
+			'description'	=>	'User Create', // optional
+		],
+		
+		'user-edit' =>  [
+			'display_name' => 'User Edit', // optional
+			'description'	=>	'User Edit', // optional
+		],
+
+		'user-delete' =>  [
+			'display_name' => 'User Delete', // optional
+			'description'	=>	'User Delete', // optional
 		],
 	
 	];

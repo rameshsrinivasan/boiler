@@ -35,7 +35,7 @@
 			
 			<a class="btn btn-primary" href="{{ route('roles.edit',$role->id) }}">Edit</a>
 			
-			{!! Form::open(['method' => 'DELETE','route' => ['roles.delete', $role->id],'style'=>'display:inline']) !!}
+			{!! Form::open(['method' => 'DELETE','route' => ['roles.destroy', $role->id],'style'=>'display:inline']) !!}
             {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
         	{!! Form::close() !!}
         	

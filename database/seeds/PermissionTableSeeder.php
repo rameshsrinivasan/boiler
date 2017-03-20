@@ -33,24 +33,24 @@ class PermissionTableSeeder extends Seeder {
         		'description' => 'Delete Role'
         	],
         	[
-        		'name' => 'item-list',
-        		'display_name' => 'Display Item Listing',
-        		'description' => 'See only Listing Of Item'
+        		'name' => 'user-list',
+        		'display_name' => 'Display User Listing',
+        		'description' => 'See only Listing Of User'
         	],
         	[
-        		'name' => 'item-create',
-        		'display_name' => 'Create Item',
-        		'description' => 'Create New Item'
+        		'name' => 'user-create',
+        		'display_name' => 'Create User',
+        		'description' => 'Create New User'
         	],
         	[
-        		'name' => 'item-edit',
-        		'display_name' => 'Edit Item',
-        		'description' => 'Edit Item'
+        		'name' => 'user-edit',
+        		'display_name' => 'Edit User',
+        		'description' => 'Edit User'
         	],
         	[
-        		'name' => 'item-delete',
-        		'display_name' => 'Delete Item',
-        		'description' => 'Delete Item'
+        		'name' => 'user-delete',
+        		'display_name' => 'Delete User',
+        		'description' => 'Delete User'
         	]
         ];
         foreach ($permission as $key => $value) {
