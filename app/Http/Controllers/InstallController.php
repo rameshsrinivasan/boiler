@@ -192,9 +192,9 @@ class InstallController extends Controller
         $dbpassword = Input::get('password');
         $port = Input::get('port');
 
-        $ENV['APP_ENV'] = 'production';
-        $ENV['APP_DEBUG'] = 'false';
-        $ENV['APP_KEY'] = 'SomeRandomString';
+        $ENV['APP_ENV'] = 'local';
+        $ENV['APP_DEBUG'] = 'true';
+        $ENV['APP_KEY'] = '5BHpdLDxwB9DD85i2WsmV9AuDouRSfk3';
         $ENV['APP_BUGSNAG'] = 'true';
         $ENV['APP_URL'] = 'http://localhost';
         $ENV['DB_INSTALL'] = '%0%';
