@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => env('APP_NAME','Laravel'),
+    'name' => env('APP_NAME','Laravel Insta'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY','5BHpdLDxwB9DD85i2WsmV9AuDouRSfk3'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -212,6 +212,7 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Input' => Illuminate\Support\Facades\Input::class,
 
     ],
 

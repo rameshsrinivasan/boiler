@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Installer\helpdesk;
+namespace App\Http\Controllers;
 
 // controllers
 use App\Http\Controllers\Controller;
@@ -48,12 +48,12 @@ class InstallController extends Controller
         // checking if the installation is running for the first time or not
         $directory = base_path();
         if (file_exists($directory.DIRECTORY_SEPARATOR.'.env')) {
-            return redirect('/auth/login');
+            return redirect('login');
         } else {
             Cache::flush();
             Artisan::call('config:clear');
 
-            return view('themes/default1/installer/helpdesk/view1');
+            return view('installer/page/view1');
         }
     }
 
@@ -87,7 +87,7 @@ class InstallController extends Controller
     {
         // checking if the installation is running for the first time or not
         if (Cache::get('step1') == 'step1') {
-            return View::make('themes/default1/installer/helpdesk/view2');
+            return View::make('installer/page/view2');
         } else {
             return Redirect::route('licence');
         }
@@ -116,7 +116,7 @@ class InstallController extends Controller
     {
         // checking if the installation is running for the first time or not
         if (Cache::get('step2') == 'step2') {
-            return View::make('themes/default1/installer/helpdesk/view3');
+            return View::make('installer/page/view3');
         } else {
             return Redirect::route('prerequisites');
         }
@@ -151,7 +151,7 @@ class InstallController extends Controller
     {
         // checking if the installation is running for the first time or not
         if (Cache::get('step2') == 'step2') {
-            return View::make('themes/default1/installer/helpdesk/view3');
+            return View::make('installer/page/view3');
         } else {
             return Redirect::route('prerequisites');
         }
@@ -236,7 +236,7 @@ class InstallController extends Controller
     {
         // checking if the installation is running for the first time or not
         if (Cache::get('step4') == 'step4') {
-            return View::make('themes/default1/installer/helpdesk/view4');
+            return View::make('installer/page/view4');
         } else {
             return Redirect::route('configuration');
         }
@@ -254,7 +254,7 @@ class InstallController extends Controller
         if (Cache::get('step4') == 'step4') {
             $request->session()->put('step5', $request->input('step5'));
 
-            return View::make('themes/default1/installer/helpdesk/view5');
+            return View::make('installer/page/view5');
         } else {
             return Redirect::route('configuration');
         }
@@ -371,12 +371,12 @@ class InstallController extends Controller
 
                 Artisan::call('key:generate');
 
-                return View::make('themes/default1/installer/helpdesk/view6');
+                return View::make('installer/page/view6');
             } catch (Exception $e) {
                 return Redirect::route('account')->with('fails', $e->getMessage());
             }
         } else {
-            return redirect('/auth/login');
+            return redirect('login');
         }
     }
 
@@ -389,9 +389,9 @@ class InstallController extends Controller
     public function finalcheck()
     {
         try {
-            return redirect('/auth/login');
+            return redirect('login');
         } catch (Exception $e) {
-            return redirect('/auth/login');
+            return redirect('login');
         }
     }
 
@@ -412,6 +412,6 @@ class InstallController extends Controller
 
     public function jsDisabled()
     {
-        return view('themes/default1/installer/helpdesk/check-js')->with('url', 'step1');
+        return view('installer/page/check-js')->with('url', 'step1');
     }
 }
