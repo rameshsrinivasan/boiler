@@ -5,7 +5,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Laravel BoilerPlate</title>
         <link href="{{asset("lb-faveo/media/images/favicon.ico")}}"  rel="shortcut icon" />
-        <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery.ui.css" rel="stylesheet" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.css" rel="stylesheet" />
         <link href="{{asset("lb-faveo/css/load-styles.css")}}" rel="stylesheet" type="text/css" />
         <link href="{{asset("lb-faveo/css/css.css")}}" rel="stylesheet" type="text/css" />
         <link href="{{asset("lb-faveo/css/admin.css")}}" rel="stylesheet" type="text/css" />
@@ -19,7 +19,7 @@
     </head>
     <body class="setup wp-core-ui">
         <center><a href="#">
-            <img src="{{asset("lb-faveo/media/installer/faveo.png")}}" alt="faveo" width="250px"></a></center>
+            <img src="{{asset("lb-faveo/media/installer/faveo.png")}}" alt="Laravel" width="250px"></a></center>
     <ol class="setup-steps">
         <li class="@yield('license')">License Agreement</li>
         <li class="@yield('environment')">Environment Test</li>

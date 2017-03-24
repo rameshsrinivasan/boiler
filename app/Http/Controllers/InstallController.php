@@ -34,7 +34,7 @@ use View;
  *  Class to perform the first install operation without this the database
  *  settings could not be started
  *
- *  @author     Ladybird <info@ladybirdweb.com>
+ *  @author     Ramesh <rameshsrinivasanbe@gmail.com>
  */
 class InstallController extends Controller
 {
@@ -78,7 +78,7 @@ class InstallController extends Controller
     /**
      * Get prerequisites (step 2).
      *
-     * Checking the extensions enabled required for installing the faveo
+     * Checking the extensions enabled required for installing the Laravel
      * without which the project cannot be executed properly
      *
      * @return type view
@@ -165,7 +165,7 @@ class InstallController extends Controller
      */
     public function configurationcheck(DatabaseRequest $request)
     {
-        Cache::forever('step4', 'step4');
+        // Cache::forever('step4', 'step4');
 
         Session::set('default', $request->input('default'));
         Session::set('host', $request->input('host'));
@@ -192,24 +192,27 @@ class InstallController extends Controller
         $dbpassword = Input::get('password');
         $port = Input::get('port');
 
+        $ENV['APP_NAME'] = 'Boiler';
         $ENV['APP_ENV'] = 'local';
         $ENV['APP_DEBUG'] = 'true';
         $ENV['APP_KEY'] = '5BHpdLDxwB9DD85i2WsmV9AuDouRSfk3';
         $ENV['APP_BUGSNAG'] = 'true';
-        $ENV['APP_URL'] = 'http://localhost';
+        $ENV['APP_URL'] = 'http://localhost/boiler/public/';
         $ENV['DB_INSTALL'] = '%0%';
-        $ENV['DB_TYPE'] = $default;
+        $ENV['DB_CONNECTION'] = $default;
         $ENV['DB_HOST'] = $host;
         $ENV['DB_PORT'] = $port;
         $ENV['DB_DATABASE'] = $database;
         $ENV['DB_USERNAME'] = $dbusername;
         $ENV['DB_PASSWORD'] = $dbpassword;
         $ENV['MAIL_DRIVER'] = 'smtp';
-        $ENV['MAIL_HOST'] = 'mailtrap.io';
-        $ENV['MAIL_PORT'] = '2525';
+        $ENV['MAIL_HOST'] = 'smtp.mailgun.org';
+        $ENV['MAIL_PORT'] = '587';
         $ENV['MAIL_USERNAME'] = 'null';
         $ENV['MAIL_PASSWORD'] = 'null';
-        $ENV['CACHE_DRIVER'] = 'file';
+        $ENV['MAILGUN_SECRET'] = 'null';
+        $ENV['MAILGUN_DOMAIN'] = 'null';
+        $ENV['CACHE_DRIVER'] = 'array';
         $ENV['SESSION_DRIVER'] = 'file';
         $ENV['QUEUE_DRIVER'] = 'sync';
 
@@ -250,6 +253,7 @@ class InstallController extends Controller
      */
     public function account(Request $request)
     {
+        // echo Cache::get('step4'); die;
         // checking if the installation is running for the first time or not
         if (Cache::get('step4') == 'step4') {
             $request->session()->put('step5', $request->input('step5'));
