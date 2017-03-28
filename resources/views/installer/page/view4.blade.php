@@ -17,12 +17,6 @@ active
     <h1 style="text-align: center;">Database Setup</h1>
         This test will check prerequisites required to install {{Config::get('app.name')}}<br/>
 <?php
-/**
- * Faveo HELPDESK Probe
- *
- * Copyright (c) 2014 Ladybird Web Solution.
- *
- */
 // -- Please provide valid database connection parameters ------------------------------
 $default = Session::get('default');
 $host = Session::get('host');
@@ -193,7 +187,7 @@ $(document).ready(function () {
 
 <?php } else {?>
     <div class="woocommerce-message woocommerce-tracker" >
-            <p id="fail">Database connection unsuccessful. This system does not meet Faveo system requirements</p>
+            <p id="fail">Database connection unsuccessful. This system does not meet {{Config::get('app.name')}} system requirements</p>
             </div>
         <p>This either means that the username and password information is incorrect or we can&rsquo;t contact the database server. This could mean your host&rsquo;s database server is down.</p>
         <ul>

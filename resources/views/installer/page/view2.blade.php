@@ -79,12 +79,12 @@ class TestResult {
     This test will check prerequisites required to {{Config::get('app.name')}}
     
     <br/><br/>
-    <p>NOTE:&nbsp;{{Config::get('app.name')}} doesn't work properly without JavaScript.  In order to install and run FAVEO to its full extent please make sure JavaScript is enabled in your browser.</p>
+    <p>NOTE:&nbsp;{{Config::get('app.name')}} doesn't work properly without JavaScript.  In order to install and run {{Config::get('app.name')}} to its full extent please make sure JavaScript is enabled in your browser.</p>
      <?php
 
 function validate_php(&$results) {
     if (version_compare(PHP_VERSION, '5.5') == -1) {
-        $results[] = new TestResult('Minimum PHP version required in order to run Faveo HELPDESK is PHP 5.5. Your PHP version: ' . PHP_VERSION, STATUS_ERROR);
+        $results[] = new TestResult('Minimum PHP version required in order to run '.Config::get('app.name').' is PHP 5.5. Your PHP version: ' . PHP_VERSION, STATUS_ERROR);
         return false;
     } else {
         $results[] = new TestResult('Your PHP version is ' . PHP_VERSION, STATUS_OK);
@@ -214,20 +214,20 @@ function validate_extensions(&$results) {
         if (extension_loaded($required_extension)) {
             $results[] = new TestResult("Required extension '$required_extension' found", STATUS_OK);
         } else {
-            $results[] = new TestResult("Extension '$required_extension' is required in order to run Faveo Helpdesk ", STATUS_ERROR);
+            $results[] = new TestResult("Extension '$required_extension' is required in order to run ".Config::get('app.name')." ", STATUS_ERROR);
             $ok = false;
         } // if
     } // foreach
 
     // Check for eAccelerator
     if (extension_loaded('eAccelerator') && ini_get('eaccelerator.enable')) {
-        $results[] = new TestResult("eAccelerator opcode cache enabled. <span class=\"details\">eAccelerator opcode cache causes Faveo Helpdesk to crash. <a href=\"https://eaccelerator.net/wiki/Settings\">Disable it</a> for folder where Faveo Helpdesk is installed, or use APC instead: <a href=\"http://www.php.net/apc\">http://www.php.net/apc</a>.</span>", STATUS_ERROR);
+        $results[] = new TestResult("eAccelerator opcode cache enabled. <span class=\"details\">eAccelerator opcode cache causes Laravel to crash. <a href=\"https://eaccelerator.net/wiki/Settings\">Disable it</a> for folder where Laravel Helpdesk is installed, or use APC instead: <a href=\"http://www.php.net/apc\">http://www.php.net/apc</a>.</span>", STATUS_ERROR);
         $ok = false;
     } // if
 
     // Check for XCache
     if (extension_loaded('XCache') && ini_get('xcache.cacher')) {
-        $results[] = new TestResult("XCache opcode cache enabled. <span class=\"details\">XCache opcode cache causes Faveo Helpdesk to crash. <a href=\"http://xcache.lighttpd.net/wiki/XcacheIni\">Disable it</a> for folder where Faveo Helpdesk is installed, or use APC instead: <a href=\"http://www.php.net/apc\">http://www.php.net/apc</a>.</span>", STATUS_ERROR);
+        $results[] = new TestResult("XCache opcode cache enabled. <span class=\"details\">XCache opcode cache causes Laravel to crash. <a href=\"http://xcache.lighttpd.net/wiki/XcacheIni\">Disable it</a> for folder where Laravel is installed, or use APC instead: <a href=\"http://www.php.net/apc\">http://www.php.net/apc</a>.</span>", STATUS_ERROR);
         $ok = false;
     } // if
 
@@ -266,7 +266,7 @@ function checkDisabledFunctions(&$results) {
         foreach ($required_functions as $value) {
             if($key == $value) {
                 if (strpos(ini_get('disable_functions'), $key) !== false) {
-                    $results[] = new TestResult("Function '$value' is required in order to run Faveo Helpdesk. Please check php.ini to enable this function or contact your server administrator", STATUS_ERROR);
+                    $results[] = new TestResult("Function '$value' is required in order to run Laravel. Please check php.ini to enable this function or contact your server administrator", STATUS_ERROR);
                     $ok = false;
                 } else {
                     $results[] = new TestResult("All required functions found", STATUS_OK);
@@ -320,7 +320,7 @@ if ($php_ok && $memory_ok && $extensions_ok && $file_permission && $required_fun
     ?></div><br>
             
             <div class="woocommerce-message woocommerce-tracker" >
-                <p id="fail">This system does not meet Faveo system requirements</p>
+                <p id="fail">This system does not meet {{Config::get('app.name')}} system requirements</p>
             </div>
 <p class="setup-actions step">
     <a href="{{URL::route('licence')}}" style="float: left"><button value="prev" class="button-primary button button-large">Previous</button></a>

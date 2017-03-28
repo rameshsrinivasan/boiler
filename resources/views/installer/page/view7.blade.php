@@ -19,7 +19,7 @@
 <p>
 
 <br>
-<a href="{{url('auth/login')}}" id="access1">&nbsp;&nbsp;&nbsp;&nbsp; Submit</a>
+<a href="{{url('login')}}" id="access1">&nbsp;&nbsp;&nbsp;&nbsp; Login</a>
 <br><br><br>
 <p>
 

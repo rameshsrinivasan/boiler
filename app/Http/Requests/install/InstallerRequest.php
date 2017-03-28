@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\helpdesk;
+namespace App\Http\Requests\install;
 
 use App\Http\Requests\Request;
 
 /**
- * RegisterRequest.
+ * InstallerRequest.
  *
  * @author  Ladybird <info@ladybirdweb.com>
  */
-class RegisterRequest extends Request
+class InstallerRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,11 @@ class RegisterRequest extends Request
     public function rules()
     {
         return [
-            'email'                 => 'required|max:50|email|unique:users',
-            'full_name'             => 'required',
-            'password'              => 'required|min:6',
-            'password_confirmation' => 'required|same:password',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'password'        => 'required|min:6',
+            'confirmpassword' => 'required|same:password',
         ];
     }
 }

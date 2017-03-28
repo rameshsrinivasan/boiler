@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 // controllers
 use App\Http\Controllers\Controller;
 // requests
-use App\Http\Requests\helpdesk\DatabaseRequest;
-use App\Http\Requests\helpdesk\InstallerRequest;
-use App\Model\helpdesk\Settings\System;
-// models
-use App\Model\helpdesk\Utility\Date_time_format;
-use App\Model\helpdesk\Utility\Timezones;
+use App\Http\Requests\install\DatabaseRequest;
+use App\Http\Requests\install\InstallerRequest;
 use App\User;
 use Artisan;
 // classes
@@ -38,6 +34,10 @@ use View;
  */
 class InstallController extends Controller
 {
+    public function __construct()
+    {
+        //
+    }
     /**
      * Get Licence (step 1).
      *
@@ -50,7 +50,12 @@ class InstallController extends Controller
         if (file_exists($directory.DIRECTORY_SEPARATOR.'.env')) {
             return redirect('login');
         } else {
-            Cache::flush();
+            Session::forget('step1');
+            Session::forget('step2');
+            Session::forget('step3');
+            Session::forget('step4');
+            Session::forget('step5');
+            Session::forget('step6');
             Artisan::call('config:clear');
 
             return view('installer/page/view1');
@@ -67,7 +72,7 @@ class InstallController extends Controller
         // checking if the user have accepted the licence agreement
         $accept = (Input::has('accept1')) ? true : false;
         if ($accept == 'accept') {
-            Cache::forever('step1', 'step1');
+            Session::put('step1', 'step1');
 
             return Redirect::route('prerequisites');
         } else {
@@ -86,7 +91,7 @@ class InstallController extends Controller
     public function prerequisites(Request $request)
     {
         // checking if the installation is running for the first time or not
-        if (Cache::get('step1') == 'step1') {
+        if (Session::get('step1') == 'step1') {
             return View::make('installer/page/view2');
         } else {
             return Redirect::route('licence');
@@ -101,7 +106,7 @@ class InstallController extends Controller
      */
     public function prerequisitescheck(Request $request)
     {
-        Cache::forever('step2', 'step2');
+        Session::put('step2', 'step2');
 
         return Redirect::route('configuration');
     }
@@ -115,7 +120,7 @@ class InstallController extends Controller
     public function localization(Request $request)
     {
         // checking if the installation is running for the first time or not
-        if (Cache::get('step2') == 'step2') {
+        if (Session::get('step2') == 'step2') {
             return View::make('installer/page/view3');
         } else {
             return Redirect::route('prerequisites');
@@ -128,18 +133,18 @@ class InstallController extends Controller
      *
      * @return type view
      */
-    public function localizationcheck(Request $request)
-    {
-        Cache::forever('step3', 'step3');
+    // public function localizationcheck(Request $request)
+    // {
+    //     Session::put('step3', 'step3');
 
-        $request->session()->put('step3', 'step3');
-        $request->session()->put('language', Input::get('language'));
-        $request->session()->put('timezone', Input::get('timezone'));
-        $request->session()->put('date', Input::get('date'));
-        $request->session()->put('datetime', Input::get('datetime'));
+    //     $request->session()->put('step3', 'step3');
+    //     $request->session()->put('language', Input::get('language'));
+    //     $request->session()->put('timezone', Input::get('timezone'));
+    //     $request->session()->put('date', Input::get('date'));
+    //     $request->session()->put('datetime', Input::get('datetime'));
 
-        return Redirect::route('configuration');
-    }
+    //     return Redirect::route('configuration');
+    // }
 
     /**
      * Get Configuration (step 4)
@@ -150,7 +155,7 @@ class InstallController extends Controller
     public function configuration(Request $request)
     {
         // checking if the installation is running for the first time or not
-        if (Cache::get('step2') == 'step2') {
+        if (Session::get('step2') == 'step2') {
             return View::make('installer/page/view3');
         } else {
             return Redirect::route('prerequisites');
@@ -165,8 +170,7 @@ class InstallController extends Controller
      */
     public function configurationcheck(DatabaseRequest $request)
     {
-        // Cache::forever('step4', 'step4');
-
+        Session::put('step4', 'step4');
         Session::set('default', $request->input('default'));
         Session::set('host', $request->input('host'));
         Session::set('databasename', $request->input('databasename'));
@@ -238,7 +242,7 @@ class InstallController extends Controller
     public function database(Request $request)
     {
         // checking if the installation is running for the first time or not
-        if (Cache::get('step4') == 'step4') {
+        if (Session::get('step4') == 'step4') {
             return View::make('installer/page/view4');
         } else {
             return Redirect::route('configuration');
@@ -253,9 +257,8 @@ class InstallController extends Controller
      */
     public function account(Request $request)
     {
-        // echo Cache::get('step4'); die;
         // checking if the installation is running for the first time or not
-        if (Cache::get('step4') == 'step4') {
+        if (Session::get('step4') == 'step4') {
             $request->session()->put('step5', $request->input('step5'));
 
             return View::make('installer/page/view5');
@@ -272,22 +275,21 @@ class InstallController extends Controller
      *
      * @return type view
      */
-    public function accountcheck(InstallerRequest $request)
+    public function accountcheck(Request $request)
     {
         // checking is the installation was done previously
         try {
-            $check_for_pre_installation = System::all();
+            $check_for_pre_installation = User::all();
             if ($check_for_pre_installation) {
                 rename(base_path().DIRECTORY_SEPARATOR.'.env', base_path().DIRECTORY_SEPARATOR.'example.env');
-                Cache::put('fails', 'The data in database already exist. Please provide fresh database', 2);
-
+                Session::put('fails', 'The data in database already exist. Please provide fresh database', 2);
                 return redirect()->route('configuration');
             }
         } catch (Exception $e) {
         }
         if ($request->input('dummy-data') == 'on') {
-            $path = base_path().'/DB/dummy-data.sql';
-            DB::unprepared(file_get_contents($path));
+            // $path = base_path().'/DB/dummy-data.sql';
+            // DB::unprepared(file_get_contents($path));
         } else {
             // migrate database
             Artisan::call('migrate', ['--force' => true]);
@@ -295,52 +297,22 @@ class InstallController extends Controller
         }
         // create user
         $firstname = $request->input('firstname');
-        $lastname = $request->input('Lastname');
+        $lastname = $request->input('lastname');
         $email = $request->input('email');
         $username = $request->input('username');
         $password = $request->input('password');
-
-        $language = $request->input('language');
-        $timezone = $request->input('timezone');
-        $date = $request->input('date');
-        $datetime = $request->input('datetime');
-
-        // checking requested timezone for the admin and system
-        $timezones = Timezones::where('name', '=', $timezone)->first();
-        if ($timezones == null) {
-            return redirect()->back()->with('fails', 'Invalid time-zone');
-        }
-
-        // checking requested date time format for the admin and system
-        $date_time_format = Date_time_format::where('format', '=', $datetime)->first();
-        if ($date_time_format == null) {
-            return redirect()->back()->with('fails', 'invalid date-time format');
-        }
-
-        // Creating minum settings for system
-        $system = new System();
-        $system->status = 1;
-        $system->department = 1;
-        $system->date_time_format = $date_time_format->id;
-        $system->time_zone = $timezones->id;
-        $version = \Config::get('app.version');
-        $version = explode(' ', $version);
-        $version = $version[1];
-        $system->version = $version;
-        $system->save();
-
-        // creating an user
         $user = User::create([
-                    'first_name'   => $firstname,
-                    'last_name'    => $lastname,
-                    'email'        => $email,
-                    'user_name'    => $username,
-                    'password'     => Hash::make($password)
+            'first_name'   => $firstname,
+            'last_name'    => $lastname,
+            'email'        => $email,
+            'password'     => Hash::make($password)
         ]);
+        $admin_role_id = DB::table('roles')->select('id')->where('name', 'admin')->first()->id;
+        $user->attachRole($admin_role_id);
+
         // checking if the user have been created
         if ($user) {
-            Cache::forever('step6', 'step6');
-
+            Session::put('step6', 'step6');
             return Redirect::route('final');
         }
     }
@@ -354,7 +326,7 @@ class InstallController extends Controller
     public function finalize()
     {
         // checking if the installation have been completed or not
-        if (Cache::get('step6') == 'step6') {
+        if (Session::get('step6') == 'step6') {
             $value = '1';
             $install = base_path().DIRECTORY_SEPARATOR.'.env';
             $datacontent = File::get($install);
@@ -371,11 +343,11 @@ class InstallController extends Controller
             $datacontent2 = str_replace('http://localhost', $link, $datacontent2);
             File::put($app_url, $datacontent2);
             try {
-                Cache::flush();
+                Session::flush();
 
                 Artisan::call('key:generate');
 
-                return View::make('installer/page/view6');
+                return View::make('installer/page/view7');
             } catch (Exception $e) {
                 return Redirect::route('account')->with('fails', $e->getMessage());
             }

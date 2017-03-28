@@ -73,4 +73,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/finalpost', ['as' => 'postfinal', 'uses' => 'InstallController@finalcheck']);
     Route::post('/postconnection', ['as' => 'postconnection', 'uses' => 'InstallController@postconnection']);
     Route::get('/change-file-permission', ['as' => 'change-permission', 'uses' => 'InstallController@changeFilePermission']);
+
+
+    Route::get('test111', function() {
+    	
+    	Cache::tags(['test111'])->put('testa','asdasd');
+    	$cache = Cache::tags(['test111'])->get('Anne');
+    	echo "<pre>"; var_dump($cache); echo "</pre>"; die;
+    });
 });

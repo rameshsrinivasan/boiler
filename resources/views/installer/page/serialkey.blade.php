@@ -6,8 +6,8 @@ active
 
 @section('content')
     <div class="wc-setup-content" ng-app="myApp">
-        <h1 style="text-align: center;">Faveo HELPDESK Serial Key</h1>
-        <p><strong>Please enter your serial key for Faveo HELPDESK PRO</strong></p>
+        <h1 style="text-align: center;">{{Config::get('app.name')}} Serial Key</h1>
+        <p><strong>Please enter your serial key for {{Config::get('app.name')}}</strong></p>
                 @if(Session::has('success'))
                     <div class="wc-setup-content">
                         <div class="woocommerce-message woocommerce-tracker">
@@ -27,7 +27,7 @@ active
                         </div>
                     </div>
                 @endif
-        <form action="http://www.faveohelpdesk.com/billing/serial" method="post">
+        <form action="#" method="post">
             <input type="hidden" name="domain" value="http://{{ $_SERVER['HTTP_HOST'] }}">
             <input type="hidden" name="url" value="http://{{$_SERVER['HTTP_HOST']}}{{$_SERVER['REQUEST_URI']}}">
             <input type="hidden" name="_token" value="{{csrf_token()}}">

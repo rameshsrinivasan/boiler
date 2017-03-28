@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\helpdesk;
+namespace App\Http\Requests\install;
 
 use App\Http\Requests\Request;
 
 /**
- * EmailsEditRequest.
+ * InstallerRequest.
  *
  * @author  Ladybird <info@ladybirdweb.com>
  */
-class DiagnosRequest extends Request
+class DatabaseRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,10 +29,12 @@ class DiagnosRequest extends Request
     public function rules()
     {
         return [
-            'from'    => 'required',
-            'to'      => 'required|email',
-            'subject' => 'required',
-            'message' => 'required',
+            'default'       => 'required',
+            'host'          => 'required',
+            'databasename'  => 'required',
+            'username'      => 'required',
+            // 'password'      =>  '',
+            'port'          => 'integer|min:0',
         ];
     }
 }
